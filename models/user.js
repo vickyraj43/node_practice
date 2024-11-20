@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const VALIDATION_ERRORS = require('../constants/validationErrors');
+
+
 const userSchema = new mongoose.Schema({
     firstName :{
         type: String,
@@ -8,9 +11,12 @@ const userSchema = new mongoose.Schema({
         maxlength: 30,
         validate: {
             validator: function(v){
-                return /^[a-zA-Z]+$/.test(v);
+                
+                return /^[a-zA-Z\s]+$/.test(v); 
             },
-            message: props => `${props.value} is not a valid name`
+            message: props => {
+                return `${props.value} ${VALIDATION_ERRORS.INVALID_FIRST_NAME}`
+            }
         }
     },
     lastName :{
@@ -22,7 +28,7 @@ const userSchema = new mongoose.Schema({
             validator: function(v){
                 return /^[a-zA-Z]+$/.test(v);
             },
-            message: props => `${props.value} is not a valid name`
+            message: props => `${props.value} ${VALIDATION_ERRORS.INVALID_LAST_NAME}`
         }
     },
     emailId :{
@@ -33,7 +39,7 @@ const userSchema = new mongoose.Schema({
             validator: function(v){
                 return validator.isEmail(v);
             },
-            message: props => `${props.value} is not a valid email`
+            message: props => `${props.value} ${VALIDATION_ERRORS.INVALID_EMAIL_ID}`
         }
     },
     password :{
@@ -43,15 +49,17 @@ const userSchema = new mongoose.Schema({
             validator: function(v){
                 return validator.isStrongPassword(v);
             },
-            message: props => `${props.value} is not a strong password`
+            message: props => `${props.value} ${VALIDATION_ERRORS.PASSWORD_NOT_STRONG}`
         }
+    },
+    profilePicture:{
+        type: String,
     },
     age:{
         type: Number,        
     },
     gender:{
         type: String,
-        required: true,
         validate:{
             validator: function(v){
                 if(v.toLowerCase() == 'male' || v.toLowerCase() == 'female' || v.toLowerCase() == 'others'){
@@ -59,7 +67,7 @@ const userSchema = new mongoose.Schema({
                 }
                 return false;
             },
-            message: props => `${props.value} is not a valid gender`
+            message: props => `${props.value} ${VALIDATION_ERRORS.INVALID_GENDER}`
         }
     },
     jobTitle:{
@@ -68,8 +76,8 @@ const userSchema = new mongoose.Schema({
     },
     skills:{
         type: [String],
-    }
-});
+    },
+}, {timestamps: true});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

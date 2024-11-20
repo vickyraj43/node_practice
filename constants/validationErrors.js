@@ -1,0 +1,30 @@
+const VALIDATION_ERRORS = {
+    "EMAIL_ALREADY_EXISTS": "Email already exists",
+    "INVALID_PASSWORD": "Invalid password",
+    "INVALID_EMAIL": "Invalid email",
+    "INVALID_NAME": "Invalid name",
+    "INVALID_PHONE_NUMBER": "Invalid phone number",
+    "INVALID_DATE_OF_BIRTH": "Invalid date of birth",
+    "INVALID_GENDER": "is not a valid gender",
+    "PASSWORD_NOT_STRONG": "is not a strong password",
+    "INVALID_EMAIL_ID": "is not a valid email",
+    "INVALID_LAST_NAME": "is not a valid last name",
+    "INVALID_FIRST_NAME": "is not a valid first name",
+    "INVALID_ADDRESS": "is not a valid address",
+    "INVALID_CITY": "is not a valid city",
+    "INVALID_STATE": "is not a valid state",
+    "INVALID_ZIP_CODE": "is not a valid zip code",
+    "INVALID_COUNTRY": "is not a valid country",
+    "VALIDATION_ERROR": "Validation Error",
+    "CAST_ERROR": "Invalid input data",
+    "REQUIRED_FIELDS": "All fields are required",
+    "NOT_FOUND": "User not found",
+    "INVALID_CREDENTIALS": "Invalid credentials",
+    "INVALID_PATH": "Invalid path",
+    "UNAUTHORIZED": "Unauthorized",
+    "STRONG_PASSWORD_REQUIRED": "Password should be strong",
+    "INVALID_CURRENT_PASSWORD": "Current password is invalid",
+    "PASSWORD_MISMATCH": "New password and confirm password do not match"
+}
+
+module.exports = VALIDATION_ERRORS;

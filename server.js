@@ -14,6 +14,7 @@ const dotenv = require('dotenv').config();
 //API Routes
 const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profile');
+const connectionRequestRouter = require('./routes/connectionRequest');
 
 app.use(express.json());
 app.use(express.static('public'));
@@ -23,7 +24,7 @@ app.use(isUserAuthenticated);
 //API Routes
 app.use('/auth' , authRouter);  
 app.use('/profile' , profileRouter);
-// app.use('/connection' , connectionRouter);
+app.use('/connection' , connectionRequestRouter);
 // app.use('/request' , connectionRequestRouter);
 
 app.use('*' , (req, res, next) => {

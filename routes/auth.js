@@ -5,7 +5,6 @@ const User = require('../models/user');
 const VALIDATION_ERRORS = require('../constants/validationErrors');
 const SUCCESS = require('../constants/success');
 const { isUserAuthenticated } = require('../middleware/auth');
-
 router.post('/signup' , async (req, res , next) => {
     try{
         console.log("user route called");

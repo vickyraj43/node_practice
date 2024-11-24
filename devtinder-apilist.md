@@ -22,4 +22,24 @@
 
  * GET /feed - Get you the profiles of the people you might like 🔍
 
+
+
 status : ignore , interested , accepted , rejected
+#ConnectionRequestSchema
+
+    fromUserId :: mongosse.schema.Types.ObjectId,
+    toUserId  :: mongosse.schema.Types.ObjectId,
+    status :: string , [enum : ignore , interested , accepted , rejected],
+    createdAt :: Date,  
+    updatedAt :: Date   
+
+    - Create connnection request schema 
+    send connectioon to request api
+    -proper validation of data
+    -think about all corner
+    -$or and other query
+    -pre in mongoose
+    -post in mongoose
+    -error handling
+    -api doc
+    -learn about index

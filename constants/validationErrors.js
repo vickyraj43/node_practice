@@ -24,7 +24,9 @@ const VALIDATION_ERRORS = {
     "UNAUTHORIZED": "Unauthorized",
     "STRONG_PASSWORD_REQUIRED": "Password should be strong",
     "INVALID_CURRENT_PASSWORD": "Current password is invalid",
-    "PASSWORD_MISMATCH": "New password and confirm password do not match"
+    "PASSWORD_MISMATCH": "New password and confirm password do not match",
+    "FROM_AND_TO_USER_CANNOT_BE_THE_SAME": "From and to user cannot be the same",
+    "CONNECTION_REQUEST_ALREADY_EXISTS": "Connection request already exists"
 }
 
 module.exports = VALIDATION_ERRORS;

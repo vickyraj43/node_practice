@@ -15,7 +15,7 @@ const dotenv = require('dotenv').config();
 const authRouter = require('./routes/auth');
 const profileRouter = require('./routes/profile');
 const connectionRequestRouter = require('./routes/connectionRequest');
-
+const reviewRouter = require('./routes/review');
 app.use(express.json());
 app.use(express.static('public'));
 app.use(cookieParser());
@@ -25,7 +25,7 @@ app.use(isUserAuthenticated);
 app.use('/auth' , authRouter);  
 app.use('/profile' , profileRouter);
 app.use('/connection' , connectionRequestRouter);
-// app.use('/request' , connectionRequestRouter);
+app.use('/request' , reviewRouter);
 
 app.use('*' , (req, res, next) => {
     const err =  utility.generateError(VALIDATION_ERRORS.INVALID_PATH , 'NotFoundError' , req.path);

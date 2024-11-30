@@ -1,11 +1,12 @@
-const express = require('express');//-
+const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();//-
 const VALIDATION_ERRORS = require("../constants/validationErrors");//-
 const utility = require("../utility/utility");//-
 const { isUserAuthenticated } = require('../middleware/auth');//-
 const ConnectionRequest = require('../models/connectionRequest');//-
 const { CONNECTION_REQUEST_STATUS } = require('../constants/message');//-
-const VALID_STATUS = ['ACCEPTED', 'REJECTED', 'PENDING'];//-
+const VALID_STATUS = ['ACCEPTED', 'REJECTED', 'IGNORED'];//-
 /************************************************************************************************
  * Handles the review of a connection request, allowing authorized users to accept or reject requests.//+
  * @param {Object} req - The request object.//+
@@ -23,29 +24,33 @@ const VALID_STATUS = ['ACCEPTED', 'REJECTED', 'PENDING'];//-
 router.post('/review/:requestId/:status', isUserAuthenticated, async(req , res , next) => {
     try{
         const {requestId , status} = req.params;
-        const {id} = req.user;
-        if(!requestId || !status || !id ){
+        const {_id} = req.user;
+        if(!requestId || !status || !_id ){
             throw utility.generateError(VALIDATION_ERRORS.INVALID_REQUEST_PARAMS , 'ValidationError' , 'connectionRequestController');
         }
 
-
+        
         // Status value validation
         if (!VALID_STATUS.includes(status.toUpperCase())) {
             throw utility.generateError('Invalid status value', 'ValidationError', 'connectionRequestController');
         }
+       
 
         // Find and validate connection request
-        const connectionRequest = await ConnectionRequest.findById(requestId);
-        if(!connectionRequest){
+        const connectionRequest = await ConnectionRequest.findById(requestId).populate("fromUserId", ["firstName", "lastName", "status", "emailId"]);
+        if (!connectionRequest) {
+            throw utility.generateError(VALIDATION_ERRORS.NOT_FOUND, 'NotFoundError', 'connectionRequestController');
+        }
+         if(!connectionRequest){
             throw utility.generateError(VALIDATION_ERRORS.NOT_FOUND , 'NotFoundError' , 'connectionRequestController');
         }
         //only admin can accept or reject the request
-        if(id !== (connectionRequest.toUserId).toString()) {
+        console.log(_id , connectionRequest.toUserId)
+        if(_id.toString() != (connectionRequest.toUserId.toString())) {
             throw utility.generateError(VALIDATION_ERRORS.UNAUTHORIZED , 'UnauthorizedError' , 'connectionRequestController');
         }
         // Check if request is already processed
-        if (connectionRequest.status === CONNECTION_REQUEST_STATUS.ACCEPTED || 
-            connectionRequest.status === CONNECTION_REQUEST_STATUS.REJECTED) {
+        if ([CONNECTION_REQUEST_STATUS.ACCEPTED, CONNECTION_REQUEST_STATUS.REJECTED, CONNECTION_REQUEST_STATUS.IGNORED].includes(connectionRequest.status)) {
             throw utility.generateError('Request already processed', 'ValidationError', 'connectionRequestController');
         }
         if([CONNECTION_REQUEST_STATUS.IGNORE , CONNECTION_REQUEST_STATUS.INTERESTED].includes(status.toLowerCase())){

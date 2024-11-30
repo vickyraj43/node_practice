@@ -18,6 +18,17 @@
 
 => UserRouter
  * GET /user/connection/list - Get connection list 🔍
+ * GET /user/connection/list - Get connection list 🔍
+ * GET /user/connection/list/pending - Get pending connections 🔍
+ * GET /user/connection/list/accepted - Get accepted connections 🔍
+ * GET /user/connection/list/rejected - Get rejected connections 🔍
+ * GET /user/connection/list/ignored - Get ignored connections 🔍
+ * GET /user/connection/list/search - Search connections 🔍
+ * GET /user/connection/list/filter - Filter connections 🔍
+ * GET /user/connection/list/sort - Sort connections 🔍
+ 
+
+ 
  * GET /user/requests/received - Get received requests 🔍
 
  * GET /feed - Get you the profiles of the people you might like 🔍

@@ -1,7 +1,7 @@
 const VALIDATION_ERRORS = require("../constants/validationErrors");
 const User = require("../models/user");
 const utility = require("../utility/utility");
-const mongoose = require("mongoose");
+
 const middleware = {};
 const publicRoutes = ["signup", "login"];
 middleware.isUserAuthenticated = async (req, res, next) => {
@@ -16,11 +16,7 @@ middleware.isUserAuthenticated = async (req, res, next) => {
         if(!isTokenValid){ 
             throw utility.generateError(VALIDATION_ERRORS.UNAUTHORIZED , 'UnauthorizedError' , req.path);
         }
-        const user = await User.findById(isTokenValid.id);
-        if(!user){
-            throw utility.generateError(VALIDATION_ERRORS.NOT_FOUND , 'NotFoundError' , req.path);
-        }
-        req.user = user;
+        req.user = isTokenValid;
         next();
     }catch(err){
        next(err);

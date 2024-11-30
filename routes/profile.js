@@ -4,7 +4,6 @@ const User = require('../models/user');
 const VALIDATION_ERRORS = require('../constants/validationErrors');
 const utility = require('../utility/utility');
 const SUCCESS = require('../constants/success');
-const ConnectionRequest = require('../models/connectionRequest');
 const router = express.Router();
 
 
@@ -59,25 +58,6 @@ router.delete('/delete/:id' , isUserAuthenticated , async (req, res , next) => {
         }
         res.status(200).json(SUCCESS.USER_DELETED);
     }catch(err){
-        next(err);
-    }
-});
-
-router.get('/request/received' , isUserAuthenticated, async function(req, res , next) {
-    try{
-        const logedInUser = req.user;
-        console.log(logedInUser._id, logedInUser.id);
-        const connectionRequest = await ConnectionRequest.find({toUserId: logedInUser._id})
-        .populate("fromUserId", ["firstName", "lastName","lastName","status", "email"]);
-        if(!connectionRequest){
-            throw utility.generateError(VALIDATION_ERRORS.NOT_FOUND, 'NotFoundError', req.path);
-        }
-        res.status(200).json({
-            message: "All requests fetched successfully.",
-            data: connectionRequest,
-            statusCode: 200
-        });
-    }catch(err){    
         next(err);
     }
 });

@@ -4,9 +4,6 @@ const VALIDATION_ERRORS = require('../constants/validationErrors');
 
 
 const userSchema = new mongoose.Schema({
-    googleId:{
-        type: String,
-      },
     firstName :{
         type: String,
         required: true,
@@ -24,6 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     lastName :{
         type: String,
+        required: true,
         minlength: 3,
         maxlength: 30,
         validate:{
@@ -46,6 +44,7 @@ const userSchema = new mongoose.Schema({
     },
     password :{
         type: String,
+        required: true,
         validate: {
             validator: function(v){
                 return validator.isStrongPassword(v);

@@ -29,7 +29,7 @@ const VALIDATION_ERRORS = {
     "CONNECTION_REQUEST_ALREADY_EXISTS": "Connection request already exists",
     "INVALID_REQUEST_PARAMS": "Please enter valid param",
     "INVALID_STATUS": "Please enter valid status",
-    "INVALID_PROMPT": "Please enter valid prompt"
+    
 }
 
 module.exports = VALIDATION_ERRORS;

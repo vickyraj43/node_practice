@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const VALIDATION_ERRORS = require('../constants/validationErrors');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
 utility.hashPassword = async (password) => {
     const salt = await bcrypt.genSalt(10); // 10 is the number of salt rounds
     const hashedPassword = await bcrypt.hash(password , salt);
@@ -42,5 +44,15 @@ utility.validatePassword = async (password) => {
         throw utility.generateError(VALIDATION_ERRORS.PASSWORD_MISMATCH , 'ValidationError' , req.path);
     }
     return true;
+}
+
+utility.generateChatResponse = async(prompt) => {
+    console.log("prompt", prompt);
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_KEY);
+    const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const result = await model.generateContent(prompt);
+    console.log("result", result);
+    console.log("result", result.response);
+    return result.response.text();
 }
 module.exports = utility;

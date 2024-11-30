@@ -5,6 +5,7 @@ const User = require('../models/user');
 const VALIDATION_ERRORS = require('../constants/validationErrors');
 const SUCCESS = require('../constants/success');
 const { isUserAuthenticated } = require('../middleware/auth');
+const passport = require('passport');
 router.post('/signup' , async (req, res , next) => {
     try{
         console.log("user route called");
@@ -106,6 +107,17 @@ router.patch('/change-password' , isUserAuthenticated , async (req , res , next)
    }catch(err){
         next(err);
     }
+});
+
+// Google Login
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }) , (req , res) => {
+    console.log(req.path , "google route ");
+});
+
+// Google Callback
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+    console.log("Login Successfully from google");
+    res.redirect('/');
 });
 
 module.exports = router;
